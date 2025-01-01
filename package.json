@@ -16,6 +16,7 @@
   "dependencies": {
     "ci": "^2.3.0",
     "ci-info": "^4.1.0",
+    "concurrently": "^9.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
@@ -25,9 +26,14 @@
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "init-msw": "msw init public/"
+    "init-msw": "msw init public/",
+    "screenDiff-ci": "npx playwright test -c playwright.config.ci.ts",
+    "screenDiff-update": "npx playwright test --update-snapshots",
+    "screenDiff-docker": "concurrently -k \"yarn run storybook\" \"docker run -w /tmp --ipc=host --entrypoint=npx --mount type=bind,src=$(pwd),dst=/tmp --rm mcr.microsoft.com/playwright:v1.49.0-jammy playwright test\"",
+    "screenDiff-update-docker": "concurrently -k \"yarn run storybook\" \"docker run -w /tmp --ipc=host --entrypoint=npx --mount type=bind,src=$(pwd),dst=/tmp --rm mcr.microsoft.com/playwright:v1.49.0-jammy playwright test --update-snapshots\""
   },
   "devDependencies": {
+    "@playwright/test": "^1.49.1",
     "@storybook/addon-essentials": "^8.3.2",
     "@storybook/addon-interactions": "^8.3.2",
     "@storybook/addon-links": "^8.3.2",
